@@ -1,0 +1,24 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    color: gray;
+    margin: 0;
+    padding: 20px;
+}
+h1 {
+    color: #333;
+}
+
+#top-ribbon {
+    display: flex;
+    justify-content: flex-end;
+    background-color: black;
+    color: white;
+    margin: 10px;
+    width: 100%;
+}
+
+footer {
+    background-color:turquoise;
+    color: white;
+}

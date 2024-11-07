@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Details</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="day-details">
+        <h2 id="dayTitle"></h2>
+        <div id="classList"></div>
+    </div>
+
+    <script>
+        const classSchedules = {
+            "2024-10-01": [
+                { name: "Yoga", time: "10:00 AM", link: "register.html?class=yoga" },
+                { name: "Pilates", time: "1:00 PM", link: "register.html?class=pilates" },
+            ],
+            "2024-10-05": [
+                { name: "Spin Class", time: "9:00 AM", link: "register.html?class=spin" },
+                { name: "Zumba", time: "6:00 PM", link: "register.html?class=zumba" },
+            ],
+        };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const dateKey = urlParams.get("date");
+        const classes = classSchedules[dateKey] || [];
+
+        document.getElementById("dayTitle").textContent = `Classes on ${dateKey}`;
+
+        const classList = document.getElementById("classList");
+        if (classes.length) {
+            classes.forEach(classInfo => {
+                const classDiv = document.createElement("div");
+                classDiv.innerHTML = `<strong>${classInfo.name}</strong> at ${classInfo.time} - <a href="${classInfo.link}">Register</a>`;
+                classList.appendChild(classDiv);
+            });
+        } else {
+            classList.textContent = "No classes scheduled for this day.";
+        }
+    </script>
+</body>
+</html>

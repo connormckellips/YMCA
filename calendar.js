@@ -20,6 +20,7 @@ function updateCalendar() {
     // Set calendar title
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     calendarTitle.textContent = `Class Schedule for ${monthNames[month]} ${year}`;
+    calendarGrid.innerHTML = "";
 
     // Clear previous days
     calendarGrid.querySelectorAll(".day, .empty").forEach(day => day.remove());
@@ -40,6 +41,7 @@ function updateCalendar() {
 
     // Generate each day of the month
     for (let day = 1; day <= daysInMonth; day++) {
+       // const dateKey = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
         const dayDiv = document.createElement("div");
         dayDiv.classList.add("day");
         dayDiv.textContent = day;
@@ -47,12 +49,32 @@ function updateCalendar() {
         // Make days clickable if a class is scheduled
         if (classDates.includes(day)) {
             dayDiv.classList.add("clickable");
-            dayDiv.addEventListener("click", () => selectDay(dayDiv));
+            dayDiv.addEventListener("click", () => redirectToDayDetails(year, month, day));
+            dayDiv.addEventListener("mouseover", () => showTooltip(dayDiv, day))
+            dayDiv.addEventListener("mouseout", hideTooltip);
         } else {
             dayDiv.classList.add("unclickable");
         }
 
         calendarGrid.appendChild(dayDiv);
+    }
+}
+
+function showTooltip(dayDiv, day) {
+    const tooltip = document.createElement("div");
+    tooltip.classList.add("tooltip");
+
+    const classDiv = document.createElement("div");
+    classDiv.innerHTML = `<strong>${day}</strong>`;
+    tooltip.appendChild(classDiv);
+
+    dayDiv.appendChild(tooltip);
+}
+
+function hideTooltip() {
+    const tooltip = event.currentTarget.querySelector(".tooltip");
+    if (tooltip) {
+        tooltip.remove();
     }
 }
 
@@ -75,5 +97,8 @@ function selectDay(dayElement) {
     alert(`Class scheduled on ${dayElement.textContent}!`);
 }
 
+function redirectToDayDetails(year, month, day) {
+    window.location.href = `day-details.html?date=${year}${month}${day}`;
+}
 
 updateCalendar();

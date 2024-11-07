@@ -1,0 +1,50 @@
+/* Basic styling for the calendar */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f4f4f4;
+}
+.calendar {
+    width: 90%;
+    max-width: 600px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+.calendar-header {
+    text-align: center;
+    margin-bottom: 10px;
+}
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+.day, .day-name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.day-name {
+    background-color: #2a9df4;
+    color: white;
+    cursor: default;
+}
+.day:hover {
+    background-color: #2a9df4;
+    color: white;
+}
+.selected {
+    background-color: #333;
+    color: white;
+}

@@ -48,3 +48,25 @@ body {
     background-color: #333;
     color: white;
 }
+
+/* Other existing styles... */
+
+.day.clickable {
+    background-color: #e0e0e0;
+    cursor: pointer;
+}
+.day.clickable:hover {
+    background-color: #2a9df4;
+    color: white;
+}
+.day.unclickable {
+    background-color: #cccccc;
+    color: #888;
+    cursor: not-allowed;
+}
+button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
+}

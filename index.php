@@ -1,7 +1,7 @@
 
 <?php
 // Path to your SQLite database file
-$databasePath = __DIR__ . '/your_database.db'; // Replace with your database path
+$databasePath = __DIR__ . '/databases/YMCAproject.db'; // Replace with your database path
 
 try {
     // Create (connect to) SQLite database

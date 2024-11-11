@@ -1,30 +1,27 @@
 <?php
 session_start();
-include 'db_connection.php'; // Connect to the database
+include 'db_connection.php';
 
-// Check if form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['pwd'];
+    $userCheck = $pdo->prepare("SELECT * FROM Users WHERE Username = :email AND password = :password LIMIT 1");
+    $userCheck->execute(['email' => $email, 'password' => $password]);
 
-    // Check if user exists in the database
-    $stmt = $pdo->prepare("SELECT * FROM Users WHERE Username = :email AND password = :password LIMIT 1");
-    $stmt->execute(['email' => $email, 'password' => $password]);
-
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
+    //if there is data, assign it here.
+    $user = $userCheck->fetch(PDO::FETCH_ASSOC);//
+    //check if user, if not, send 'em back to the login screen to try again. 
     if ($user) {
-        // User is authenticated
-        $_SESSION['username'] = $user['Username']; // Store the username in the session
-        header("Location: dashboard.php"); // Redirect to a protected page
+        //we are a user, now we got to create a session to be maintained.
+        $_SESSION['username'] = $user['Username'];
+        header("Location: dashboard.php"); //send us to the dashboard
         exit();
     } else {
-        // Redirect back to login with an error message
-        header("Location: login.php?error=invalid_credentials");
+        header("Location: login.php?error=invalid_credentials");//retry login. add code for max login attempts?
         exit();
     }
 } else {
-    // Redirect to login page if accessed directly
+    // just in case accessed directly
     header("Location: login.php");
     exit();
 }

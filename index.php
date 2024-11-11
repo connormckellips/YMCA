@@ -49,6 +49,25 @@ include 'db_connection.php';
             Contact Us
         </div>
     </footer>
+    <?php
+    try {
+    // Example query (replace 'sample_table' with your actual table name)
+    $query = $pdo->query("SELECT * FROM Users");
+    $results = $query->fetchAll(PDO::FETCH_ASSOC);
 
+    if (empty($results)) {
+        echo "<p>No data available in the table.</p>";
+    } else {
+        echo "<ul>";
+        foreach ($results as $row) {
+            // Replace 'column_name' with your actual column name
+            echo "<li>" . htmlspecialchars($row['First']) . "</li>";
+        }
+        echo "</ul>";
+    }
+} catch (PDOException $e) {
+    echo "Error retrieving data: " . $e->getMessage();
+}
+?>
 </body>
 </html>

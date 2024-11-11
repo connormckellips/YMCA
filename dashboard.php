@@ -6,12 +6,13 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 $username = $_SESSION['username'];
-$stmt = $pdo->prepare("SELECT First, Last FROM Users WHERE Username = :username LIMIT 1");
+$stmt = $pdo->prepare("SELECT First, Last, Role FROM Users WHERE Username = :username LIMIT 1");
 $stmt->execute(['username' => $username]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 if ($user) {
     $firstName = htmlspecialchars($user['First']);
     $lastName = htmlspecialchars($user['Last']);
+    $role = htmlspecialchars($user['Role']);
 } else {
     header("Location: login.php");
     exit();
@@ -26,5 +27,20 @@ if ($user) {
 </head>
 <body>
     <h1>Hi, <?php echo $firstName . ' ' . $lastName; ?>!</h1>
+    <?php if ($role = "MEM" || $role = "NON"):?>
+        <h2>
+            Register for Classes
+        </h2>
+    <?php else: ?>
+        <h2>
+            <a href="createClasses.php">Create Classes</a>
+        </h2>
+        <h2>
+            View Classes
+        </h2>
+    <?php endif; ?>
+    <h2>
+        View Account Information
+    </h2>
 </body>
 </html>

@@ -13,7 +13,7 @@ include 'db_connection.php';
 </head>
 <body>
     <div id="top-ribbon">
-        <a href="login.html"> Account </a>
+       <p> <a href="login.php"> Account </a></p>
     </div>
     <div>
         <a href="classes.html"> Classes </a>
@@ -61,7 +61,8 @@ include 'db_connection.php';
         echo "<ul>";
         foreach ($results as $row) {
             // Replace 'column_name' with your actual column name
-            echo "<li>" . htmlspecialchars($row['First']) . "</li>";
+            echo "<li>" . htmlspecialchars($row['First']) . " " . htmlspecialchars($row['Last']) . "</li>";
+            
         }
         echo "</ul>";
     }

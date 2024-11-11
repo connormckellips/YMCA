@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Schedule Calendar</title>
+    <link rel="stylesheet" href="classes.css">
+</head>
+<body>
+
+<div class="calendar">
+    <div class="calendar-header">
+        <button id="prevMonth">Previous Month</button>
+        <h2 id="calendarTitle"></h2>
+        <button id="nextMonth">Next Month</button>
+    </div>
+    <div class="calendar-grid" id="calendarGrid">
+        <!-- Days of the week -->
+        <div class="day-name">Sun</div>
+        <div class="day-name">Mon</div>
+        <div class="day-name">Tue</div>
+        <div class="day-name">Wed</div>
+        <div class="day-name">Thu</div>
+        <div class="day-name">Fri</div>
+        <div class="day-name">Sat</div>
+
+         
+         <!-- <div class="empty"></div>
+         <div class="empty"></div>
+         <div class="empty"></div>
+         <div class="empty"></div>
+         <div class="empty"></div>
+ 
+         
+         <div class="day" onclick="selectDay(this)">1</div>
+         <div class="day" onclick="selectDay(this)">2</div>
+         <div class="day" onclick="selectDay(this)">3</div>
+         <div class="day" onclick="selectDay(this)">4</div>
+         <div class="day" onclick="selectDay(this)">5</div>
+         <div class="day" onclick="selectDay(this)">6</div>
+         <div class="day" onclick="selectDay(this)">7</div>
+         <div class="day" onclick="selectDay(this)">8</div>
+         <div class="day" onclick="selectDay(this)">9</div>
+         <div class="day" onclick="selectDay(this)">10</div>
+         <div class="day" onclick="selectDay(this)">11</div>
+         <div class="day" onclick="selectDay(this)">12</div>
+         <div class="day" onclick="selectDay(this)">13</div>
+         <div class="day" onclick="selectDay(this)">14</div>
+         <div class="day" onclick="selectDay(this)">15</div>
+         <div class="day" onclick="selectDay(this)">16</div>
+         <div class="day" onclick="selectDay(this)">17</div>
+         <div class="day" onclick="selectDay(this)">18</div>
+         <div class="day" onclick="selectDay(this)">19</div>
+         <div class="day" onclick="selectDay(this)">20</div>
+         <div class="day" onclick="selectDay(this)">21</div>
+         <div class="day" onclick="selectDay(this)">22</div>
+         <div class="day" onclick="selectDay(this)">23</div>
+         <div class="day" onclick="selectDay(this)">24</div>
+         <div class="day" onclick="selectDay(this)">25</div>
+         <div class="day" onclick="selectDay(this)">26</div>
+         <div class="day" onclick="selectDay(this)">27</div>
+         <div class="day" onclick="selectDay(this)">28</div>
+         <div class="day" onclick="selectDay(this)">29</div>
+         <div class="day" onclick="selectDay(this)">30</div> -->
+    </div>
+</div>
+
+<script src="calendar.js"></script>
+
+<!-- <script>
+    function selectDay(dayElement) {
+        document.querySelectorAll('.day').forEach(day => day.classList.remove('selected'));
+        dayElement.classList.add('selected');
+        alert('You selected ' + dayElement.textContent + ' for scheduling a class!');
+    }
+</script> -->
+
+</body>
+</html>

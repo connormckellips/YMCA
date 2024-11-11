@@ -1,0 +1,91 @@
+/* Basic styling for the calendar */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f4f4f4;
+}
+.calendar {
+    width: 90%;
+    max-width: 600px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+.calendar-header {
+    text-align: center;
+    margin-bottom: 10px;
+}
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+.day, .day-name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.day-name {
+    background-color: #2a9df4;
+    color: white;
+    cursor: default;
+}
+.day:hover {
+    background-color: #2a9df4;
+    color: white;
+}
+.selected {
+    background-color: #333;
+    color: white;
+}
+
+/* Other existing styles... */
+
+.day.clickable {
+    background-color: #e0e0e0;
+    cursor: pointer;
+}
+.day.clickable:hover {
+    background-color: #2a9df4;
+    color: white;
+}
+.day.unclickable {
+    background-color: #cccccc;
+    color: #888;
+    cursor: not-allowed;
+}
+button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.tooltip {
+    position: absolute;
+    top: -40px; /* Adjust as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 8px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    font-size: 0.9rem;
+    white-space: nowrap;
+    z-index: 10;
+}
+
+.day {
+    position: relative;
+}

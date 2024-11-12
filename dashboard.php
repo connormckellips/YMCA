@@ -27,7 +27,7 @@ if ($user) {
 </head>
 <body>
     <h1>Hi, <?php echo $firstName . ' ' . $lastName; ?>!</h1>
-    <?php if ($role = "MEM" || $role = "NON"):?>
+    <?php if ($role == "MEM" || $role == "NON"):?>
         <h2>
             <a href="classes.html">Register for Classes</a>
         </h2>
@@ -41,11 +41,11 @@ if ($user) {
             <a href="createClasses.php">Create Classes</a>
         </h2>
         <h2>
-            View Classes
+            <a href="viewClasses.php">View Classes</a>
         </h2>
     <?php endif; ?>
     <h2>
-        View Account Information
+        <a href="viewAccountInformation.php">View Account Information</a>    
     </h2>
 </body>
 </html>

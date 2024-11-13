@@ -65,10 +65,14 @@
 <body>
    <div class="create-account-container">
         <form action="process_createAccount.php" method="POST">
+            <label for="first_name">First Name:</label>
+            <input type="text" id="first_name" name="first_name" required>
+            <label for="last_name">Last Name:</label>
+            <input type="text" id="last_name" name="last_name" required>
             <label for="email">Email:</label>
-            <input type="text" id="email" name="email">
+            <input type="text" id="email" name="email" required>
             <label for="pwd">Password:</label>
-            <input type="password" id="pwd" name="pwd">
+            <input type="password" id="pwd" name="pwd" required>
             <input type="submit" value="submit">
         </form>
    </div>

@@ -29,7 +29,7 @@ if ($user) {
     <h1>Hi, <?php echo $firstName . ' ' . $lastName; ?>!</h1>
     <?php if ($role == "MEM" || $role == "NON"):?>
         <h2>
-            <a href="classes.html">Register for Classes</a>
+            <a href="registerForClasses.php">Register for Classes</a>
         </h2>
         <?php if ($role = "MEM"): ?>
             <h2>

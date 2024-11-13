@@ -17,13 +17,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $Description = $_POST['description'];
     $Prerequisites = $_POST['prerequisites'];
 
-    /* $max = $pdo->prepare("SELECT MAX(classID) AS maxID FROM classes");
-    $max->execute();
-    $maxID = $max->fetch(PDO::FETCH_ASSOC);
-
-    // Step 2: Calculate the new classID
-    $newClassID = ($maxID['maxID'] ?? 0) + 1; */
-
     try {
         $statement = $pdo->prepare("INSERT INTO classes (Name, StartDate, EndDate, Days, StartTime, EndTime, Price, MemPrice, Location, Style, MaxSize, Description, Prerequisites)
                                     VALUES (:Name, :StartDate, :EndDate, :Days, :StartTime, :EndTime, :Price, :MemPrice, :Location, :Style, :MaxSize, :Description, :Prerequisites)");

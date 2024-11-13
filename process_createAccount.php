@@ -3,6 +3,8 @@ include 'db_connection.php';
 
 // Check if form data was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $first_name = trim($_POST['first_name']);
+    $last_name = trim($_POST['last_name']);
     $email = trim($_POST['email']);
     $password = trim($_POST['pwd']);
 
@@ -19,8 +21,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: createAccount.php?error=user_exists");
             exit();
         } else {
-            $newAccount = $pdo->prepare("INSERT INTO Users (email, password) VALUES (:email, :password)");
+            $newAccount = $pdo->prepare("INSERT INTO Users (first_name, last_name, email, password, role)
+                VALUES (:first_name, :last_name, :email, :password, 'NON')
+            ");
             $newAccount->execute([
+                'first_name' => $first_name,
+                'last_name' => $last_name,                 
                 'email' => $email,
                 'password' => $password 
             ]);

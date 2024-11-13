@@ -2,7 +2,7 @@
 include 'db_connection.php';
 session_start();
 
-$user_id = $_SESSION['user_id']; // Assuming user ID is stored in the session after login
+$user_id = $_SESSION['UserID'];
 
 // Query to get all required details of available classes
 $class_list = $pdo->query("

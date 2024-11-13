@@ -98,13 +98,13 @@ if (!isset($_SESSION['username'])) {
             <fieldset class="days-fieldset">
                 <legend>Days:</legend>
                 <div class="days-container">
-                    <input type="checkbox" name="days" id="Sunday" required><label for="Sunday">Sunday</label>
-                    <input type="checkbox" name="days" id="Monday" required><label for="Monday">Monday</label>
-                    <input type="checkbox" name="days" id="Tuesday" required><label for="Tuesday">Tuesday</label>
-                    <input type="checkbox" name="days" id="Wednesday" required><label for="Wednesday">Wednesday</label>
-                    <input type="checkbox" name="days" id="Thursday" required><label for="Thursday">Thursday</label>
-                    <input type="checkbox" name="days" id="Friday" required><label for="Friday">Friday</label>
-                    <input type="checkbox" name="days" id="Saturday" required><label for="Saturday">Saturday</label>
+                    <input type="checkbox" name="days[]" id="Sunday"><label for="Sunday">Sunday</label>
+                    <input type="checkbox" name="days[]" id="Monday"><label for="Monday">Monday</label>
+                    <input type="checkbox" name="days[]" id="Tuesday"><label for="Tuesday">Tuesday</label>
+                    <input type="checkbox" name="days[]" id="Wednesday"><label for="Wednesday">Wednesday</label>
+                    <input type="checkbox" name="days[]" id="Thursday"><label for="Thursday">Thursday</label>
+                    <input type="checkbox" name="days[]" id="Friday"><label for="Friday">Friday</label>
+                    <input type="checkbox" name="days[]" id="Saturday"><label for="Saturday">Saturday</label>
                 </div>
             </fieldset>
             
@@ -138,5 +138,18 @@ if (!isset($_SESSION['username'])) {
             <input type="submit" value="Create">
         </form>
     </div>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', function(event) {
+            const checkboxes = document.querySelectorAll('input[name="days[]"]');
+            const isChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+
+            if (!isChecked) {
+                event.preventDefault();
+                alert("Please select at least one day.");
+            }
+        });
+    </script>
+
 </body>
 </html>

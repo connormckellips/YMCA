@@ -14,6 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($user) {
         //we are a user, now we got to create a session to be maintained.
         $_SESSION['username'] = $user['Username'];
+        $_SESSION['UserID'] = $user['UserID'];
         header("Location: dashboard.php"); //send us to the dashboard
         exit();
     } else {

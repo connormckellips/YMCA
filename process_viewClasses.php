@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $classQuery = $pdo->prepare("SELECT Class FROM EnrollmentRecords WHERE User = :user_id");
         $classQuery->execute(['user_id' => $user['UserID']]);
 
-        if ($classQuery->rowCount() > 0) {
+        if ($classQuery) {
             $classes = $classQuery->fetchAll(PDO::FETCH_ASSOC);
             
             echo "<form action='action_ViewClasses.php' method='POST'>";

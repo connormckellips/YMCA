@@ -39,8 +39,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 }
             }
             echo "</table>";
-            echo "<input type='submit' value='Cancel'>";
+            echo "<input type='submit' name='submitType' value='Cancel Entire Class'>";
             echo "</form>";
+
+            echo "<script>
+                    document.querySelector('form').addEventListener('submit', function(event) {
+                        const selectedRadio = document.querySelector('input[name='classList']:checked');
+
+                        if (!selectedRadio) {
+                        event.preventDefault();
+                            alert('Please select a class.');
+                        }
+                    });
+                </script>";
         } else {
           
             echo "<p>No classes found for the specified user.</p>";

@@ -127,7 +127,7 @@ include 'db_connection.php';
 
     <!-- Top ribbon with account access -->
     <div class="top-ribbon">
-        <a href="login.php" class="account-link">Account</a>
+        <a href="login.php" class="account-link">Login</a>
     </div>
 
     <!-- Main Navigation -->

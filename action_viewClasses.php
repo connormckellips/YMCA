@@ -7,6 +7,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $class = $_POST['classList'];
 
     if ($submit === "Cancel") {
+        // gather class information to use for the message
+        $classQuery = $pdo->prepare("SELECT Name, StartTime, EndTime FROM Classes WHERE ClassID = :class");
+        $classQuery->execute(['class' => $class]);
+        $classInfo = $classQuery->fetch(PDO::FETCH_ASSOC);
         // gather users in user list in class to be cancelled
         $userQuery = $pdo->prepare("SELECT User FROM EnrollmentRecords WHERE Class = :class");
         $userQuery->execute(['class' => $class]);
@@ -17,9 +21,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // delete class in class table
         $deleteQuery = $pdo->prepare("DELETE FROM Classes WHERE ClassID = :class");
         $deleteQuery->execute(['class' => $class]);
-        // send notifications each user in user list
+        // send cancel notifications each user that signed up for the class
+        $sender = $_SESSION['UserID'];
+        $className = $classInfo['Name'];
+        $classStartTime = $classInfo['StartTime'];
+        $classEndTime = $classInfo['EndTime'];
+        $message = "Unfortunately, your " . $className . " class from " . $classStartTime . " - " . $classEndTime . " has been cancelled.";
         foreach ($users as $user) {
-            // do something here
+            $recipient = $user['User'];
+            $send = $pdo->prepare("INSERT INTO messages (sender_id, receiver_id, message) VALUES (:sender_id, :receiver_id, :message)");
+            $send->execute(['sender_id' => $sender, 'receiver_id' => $recipient, 'message' => $message]);
         }
         header("Location: successCancel.php");
         exit();

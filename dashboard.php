@@ -33,7 +33,7 @@ if ($user) {
             justify-content: center;
             align-items: center;
             font-family: Arial, sans-serif;
-            background: url('TheY.jpg') no-repeat center center fixed; /* Replace 'background-image.jpg' with your image path */
+            background: url('TheY.jpg') no-repeat center center fixed;
             background-size: cover;
         }
 
@@ -68,9 +68,32 @@ if ($user) {
         .option-box:hover {
             background-color: #1f8fa3;
         }
+
+        /* Logout button styling */
+        .logout-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #ff4d4d;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .logout-button:hover {
+            background-color: #cc0000;
+        }
     </style>
 </head>
 <body>
+    <!-- Logout button in the top-right corner -->
+    <a href="logout.php" class="logout-button">Logout</a>
+
     <div class="dashboard-container">
         <h1>Hi, <?php echo $firstName . ' ' . $lastName; ?>!</h1>
         <?php if ($role == "MEM" || $role == "NON"): ?>
@@ -87,4 +110,3 @@ if ($user) {
     </div>
 </body>
 </html>
-

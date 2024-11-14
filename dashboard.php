@@ -106,7 +106,7 @@ if ($user) {
             <a href="viewClasses.php" class="option-box">View Classes</a>
             <a href="cancelClasses.php" class="option-box">Cancel Classes</a>
         <?php endif; ?>
-        <a href="viewAccountInformation.php" class="option-box">View Account Information</a>
+        <a href="viewInbox.php" class="option-box">View Messages</a>
     </div>
 </body>
 </html>

@@ -3,7 +3,7 @@ include 'db_connection.php';
 session_start();
 
 $user_id = $_SESSION['UserID'];
-$role = $_SESSION['Role']; // Assuming 'Role' is stored in the session
+$role = $_SESSION['Role'];
 
 // Query to get all required details of available classes, sorted alphabetically by class name
 $class_list = $pdo->query("
@@ -39,7 +39,6 @@ $classes = $class_list->fetchAll(PDO::FETCH_ASSOC);
             width: 100%;
         }
 
-        /* Flex container for classes to align vertically */
         .classes-container {
             display: flex;
             flex-direction: column;
@@ -49,7 +48,6 @@ $classes = $class_list->fetchAll(PDO::FETCH_ASSOC);
             margin: 0 auto;
         }
 
-        /* Class container styling */
         .class-container {
             width: 100%;
             margin-bottom: 20px;
@@ -66,7 +64,6 @@ $classes = $class_list->fetchAll(PDO::FETCH_ASSOC);
             color: #333;
         }
 
-        /* Register button styling */
         .register-button {
             margin-top: 10px;
             padding: 10px 15px;
@@ -83,7 +80,6 @@ $classes = $class_list->fetchAll(PDO::FETCH_ASSOC);
             background-color: #218838;
         }
 
-        /* Return to Dashboard button */
         .dashboard-button {
             position: fixed;
             top: 20px;
@@ -135,5 +131,30 @@ $classes = $class_list->fetchAll(PDO::FETCH_ASSOC);
             </div>
         <?php endforeach; ?>
     </div>
+
+    <script>
+    // Display success or error messages based on URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const success = urlParams.get('success');
+    const error = urlParams.get('error');
+
+    if (success === 'registered') {
+        alert('Registration successful!');
+    } else if (error) {
+        switch(error) {
+            case 'prerequisite_not_met':
+                alert('Registration failed: Prerequisites are not met.');
+                break;
+            case 'already_enrolled':
+                alert('Registration failed: You are already enrolled in this class.');
+                break;
+            case 'schedule_conflict':
+                alert('Registration failed: Schedule conflict with another class.');
+                break;
+            default:
+                alert('Registration failed: Unknown error.');
+        }
+    }
+</script>
 </body>
 </html>

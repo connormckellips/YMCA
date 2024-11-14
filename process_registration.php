@@ -8,9 +8,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $class_id = (int)$_POST['ClassID'];
     $class_name = $_POST['ClassName'];
 
-    // Debugging to confirm received values
-    var_dump($user_id, $class_id, $class_name);
-
     // Check if prerequisites are met
     if (!checkPrerequisites($pdo, $user_id, $class_id)) {
         header("Location: register_classes.php?error=prerequisite_not_met");
@@ -33,22 +30,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Check for conflicting schedules
     $conflictCheck = $pdo->prepare("
-    SELECT Classes.Name, Classes.StartDate, Classes.EndDate, Classes.Days, Classes.StartTime, Classes.EndTime
-    FROM EnrollmentRecords
-    JOIN Classes ON EnrollmentRecords.Class = Classes.ClassID
-    WHERE EnrollmentRecords.User = :user_id
-      AND (
-        Classes.Days = (SELECT Days FROM Classes WHERE ClassID = :class_id)
-        AND Classes.StartTime = (SELECT StartTime FROM Classes WHERE ClassID = :class_id)
-        AND Classes.EndTime = (SELECT EndTime FROM Classes WHERE ClassID = :class_id)
-        AND (
-          DATE(Classes.StartDate) <= DATE((SELECT EndDate FROM Classes WHERE ClassID = :class_id))
-          AND DATE(Classes.EndDate) >= DATE((SELECT StartDate FROM Classes WHERE ClassID = :class_id))
-        )
-      )
-");
-$conflictCheck->execute(['user_id' => $user_id, 'class_id' => $class_id]);
-$conflict = $conflictCheck->fetch(PDO::FETCH_ASSOC);
+        SELECT Classes.Name, Classes.StartDate, Classes.EndDate, Classes.Days, Classes.StartTime, Classes.EndTime
+        FROM EnrollmentRecords
+        JOIN Classes ON EnrollmentRecords.Class = Classes.ClassID
+        WHERE EnrollmentRecords.User = :user_id
+          AND Classes.Days = (SELECT Days FROM Classes WHERE ClassID = :class_id)
+          AND (
+              (Classes.StartTime <= (SELECT EndTime FROM Classes WHERE ClassID = :class_id)
+               AND Classes.EndTime >= (SELECT StartTime FROM Classes WHERE ClassID = :class_id))
+              AND (
+                  DATE(Classes.StartDate) <= DATE((SELECT EndDate FROM Classes WHERE ClassID = :class_id))
+                  AND DATE(Classes.EndDate) >= DATE((SELECT StartDate FROM Classes WHERE ClassID = :class_id))
+              )
+          )
+    ");
+    $conflictCheck->execute(['user_id' => $user_id, 'class_id' => $class_id]);
+    $conflict = $conflictCheck->fetch(PDO::FETCH_ASSOC);
+
     if ($conflict) {
         header("Location: register_classes.php?error=schedule_conflict");
         exit();

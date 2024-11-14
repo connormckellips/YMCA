@@ -43,6 +43,9 @@ if ($user) {
         <h2>
             <a href="viewClasses.php">View Classes</a>
         </h2>
+        <h2>
+            <a href="cancelClasses.php">Cancel Classes</a>
+        </h2>
     <?php endif; ?>
     <h2>
         <a href="viewAccountInformation.php">View Account Information</a>    

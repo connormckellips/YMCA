@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 }
             }
             echo "</table>";
-            echo "<input type='submit' name='submitType' value='Cancel Entire Class'>";
+            echo "<input type='submit' name='submitType' value='Cancel'>";
             echo "</form>";
 
             echo "<script>

@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $submit = $_POST['submitType'];
     $class = $_POST['classList'];
 
-    if ($submit === "Cancel Entire Class") {
+    if ($submit === "Cancel") {
         // gather users in user list in class to be cancelled
         $userQuery = $pdo->prepare("SELECT User FROM EnrollmentRecords WHERE Class = :class");
         $userQuery->execute(['class' => $class]);

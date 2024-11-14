@@ -2,11 +2,11 @@
 include 'db_connection.php';
 session_start();
 
-$user_id = $_SESSION['UserID'];
+$user_id = $_SESSION['UserID']; // Assuming user ID is stored in the session after login
 
 // Query to get all required details of available classes
 $class_list = $pdo->query("
-    SELECT ClassID, Name, StartDate, EndDate, Days, StartTime, EndTime, Price, MemPrice, Location, MaxSize, Description
+    SELECT ClassId, Name, StartDate, EndDate, Days, StartTime, EndTime, Price, MemPrice, Location, MaxSize, Description
     FROM Classes
 ");
 $classes = $class_list->fetchAll(PDO::FETCH_ASSOC);
@@ -61,7 +61,8 @@ $classes = $class_list->fetchAll(PDO::FETCH_ASSOC);
             <p class="class-details"><strong>Description:</strong> <?php echo htmlspecialchars($class['Description']); ?></p>
             
             <form action="process_registration.php" method="POST">
-                <input type="hidden" name="ClassID" value="<?php echo $class['ClassID']; ?>">
+                <input type="hidden" name="ClassId" value="<?php echo $class['ClassId']; ?>">
+                <input type="hidden" name="ClassName" value="<?php echo htmlspecialchars($class['Name']); ?>">
                 <input type="submit" value="Register" class="register-button">
             </form>
         </div>

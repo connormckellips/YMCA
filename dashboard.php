@@ -25,7 +25,7 @@ if ($user) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <style>
-        /* Center container styling */
+        /* Full-screen background image */
         body, html {
             height: 100%;
             margin: 0;
@@ -33,16 +33,18 @@ if ($user) {
             justify-content: center;
             align-items: center;
             font-family: Arial, sans-serif;
-            background-color: #f0f2f5;
+            background: url('TheY.jpg') no-repeat center center fixed; /* Replace 'background-image.jpg' with your image path */
+            background-size: cover;
         }
 
+        /* Center container styling */
         .dashboard-container {
             text-align: center;
             max-width: 500px;
             padding: 20px;
-            background-color: #fff;
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
             border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
         }
 
         .dashboard-container h1 {
@@ -85,3 +87,4 @@ if ($user) {
     </div>
 </body>
 </html>
+

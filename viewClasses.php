@@ -74,12 +74,12 @@ if (!isset($_SESSION['username'])) {
             background-color: #1f8fa3;
         }
 
-        /* Logout button styling */
-        .logout-button {
+        /* Return to Dashboard button styling */
+        .dashboard-button {
             position: fixed;
             top: 20px;
             right: 20px;
-            background-color: #ff4d4d;
+            background-color: #1f0236;
             color: white;
             padding: 10px 15px;
             border: none;
@@ -90,14 +90,14 @@ if (!isset($_SESSION['username'])) {
             transition: background-color 0.3s ease;
         }
 
-        .logout-button:hover {
-            background-color: #cc0000;
+        .dashboard-button:hover {
+            background-color: #3a215e;
         }
     </style>
 </head>
 <body>
-    <!-- Logout button in the top-right corner -->
-    <a href="logout.php" class="logout-button">Logout</a>
+    <!-- Return to Dashboard button in the top-right corner -->
+    <a href="dashboard.php" class="dashboard-button">Return to Dashboard</a>
 
     <!-- Main content container -->
     <div class="view-classes-container">

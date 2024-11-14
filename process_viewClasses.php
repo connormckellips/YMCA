@@ -43,6 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo "</table>";
             echo "<input type='submit' name='submitType' value='Cancel' class='submit-button'>";
             echo "</form>";
+
+            // Add "Return to Search" button
+            echo "<a href='viewClasses.php' class='return-button'>Return to Search</a>";
             echo "</div>";
 
             echo "<script>
@@ -140,9 +143,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         .submit-button:hover {
             background-color: #45a049;
         }
+
+        /* Return to Search button styling */
+        .return-button {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 15px;
+            background-color: #1f8fa3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .return-button:hover {
+            background-color: #146b82;
+        }
     </style>
 </head>
 <body>
 </body>
 </html>
-

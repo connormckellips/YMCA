@@ -120,8 +120,8 @@ if (!isset($_SESSION['username'])) {
             <label for="memPrice">Member Price:</label>
             <input type="number" id="memPrice" name="memPrice" required>
 
-            <label for="roomNum">Room Number:</label>
-            <input type="number" id="roomNum" name="roomNum" required>
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location" required>
 
             <label for="style">Style:</label>
             <input type="text" id="style" name="style">
@@ -133,7 +133,7 @@ if (!isset($_SESSION['username'])) {
             <input type="text" id="description" name="description" required>
 
             <label for="prerequisites">Prerequisites:</label>
-            <input type="text" id="prerequisites" name="prerequisites" required>
+            <input type="text" id="prerequisites" name="prerequisites">
 
             <input type="submit" value="Create">
         </form>

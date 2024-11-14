@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Insert a new enrollment record if the user is not already enrolled
     $insertStmt = $pdo->prepare("
         INSERT INTO EnrollmentRecords (User, Class, Status, ClassName)
-        VALUES (:user_id, :class_id, 'in progress', class_name)
+        VALUES (:user_id, :class_id, 'in progress', :class_name)
     ");
     $insertStmt->execute(['user_id' => $user_id, 'class_id' => $class_id, 'class_name' => $class_name]);
     // Redirect to register_classes

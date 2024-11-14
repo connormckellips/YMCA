@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $EndTime = $_POST['endTime'];
     $Price = $_POST['nonPrice'];
     $MemPrice = $_POST['memPrice'];
-    $Location = $_POST['roomNum'];
+    $Location = $_POST['location'];
     $Style = $_POST['style'];
     $MaxSize = $_POST['maxSize'];
     $Description = $_POST['description'];

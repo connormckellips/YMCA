@@ -5,7 +5,7 @@ session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_id = $_SESSION['UserID'];
-    $class_id = $_POST['ClassID'];
+    $class_id = (int)$_POST['ClassID'];
     $class_name = $_POST['ClassName'];
 
     // Debugging to confirm received values
@@ -31,7 +31,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    // Insert a new enrollment record if the user is not already enrolled
+    // Check for conflicting schedules
+    $conflictCheck = $pdo->prepare("
+    SELECT Classes.Name, Classes.StartDate, Classes.EndDate, Classes.Days, Classes.StartTime, Classes.EndTime
+    FROM EnrollmentRecords
+    JOIN Classes ON EnrollmentRecords.Class = Classes.ClassID
+    WHERE EnrollmentRecords.User = :user_id
+      AND (
+        Classes.Days = (SELECT Days FROM Classes WHERE ClassID = :class_id)
+        AND Classes.StartTime = (SELECT StartTime FROM Classes WHERE ClassID = :class_id)
+        AND Classes.EndTime = (SELECT EndTime FROM Classes WHERE ClassID = :class_id)
+        AND (
+          DATE(Classes.StartDate) <= DATE((SELECT EndDate FROM Classes WHERE ClassID = :class_id))
+          AND DATE(Classes.EndDate) >= DATE((SELECT StartDate FROM Classes WHERE ClassID = :class_id))
+        )
+      )
+");
+$conflictCheck->execute(['user_id' => $user_id, 'class_id' => $class_id]);
+$conflict = $conflictCheck->fetch(PDO::FETCH_ASSOC);
+    if ($conflict) {
+        header("Location: register_classes.php?error=schedule_conflict");
+        exit();
+    }
+
+    // Insert a new enrollment record if no conflicts or duplicates
     $insertStmt = $pdo->prepare("
         INSERT INTO EnrollmentRecords (User, Class, Status, ClassName)
         VALUES (:user_id, :class_id, 'in progress', :class_name)

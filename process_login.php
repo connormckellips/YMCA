@@ -14,6 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Password is correct; create session
         $_SESSION['username'] = $user['Username'];
         $_SESSION['UserID'] = $user['UserID'];
+        $_SESSION['Role'] = $user['Role'];
         header("Location: dashboard.php");
         exit();
     } else {

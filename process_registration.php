@@ -1,14 +1,18 @@
 <?php
 include 'db_connection.php';
+include 'prerequisite_checker.php';
 session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $user_id = $_SESSION['UserID']; 
-    $class_id = $_POST['ClassID']; 
+    $user_id = $_SESSION['UserID'];
+    $class_id = $_POST['ClassID'];
     $class_name = $_POST['ClassName'];
 
-    if (!checkPrerequisite($pdo, $user_id, $class_id)) {
-        // Redirect with an error message if the prerequisite is not met
+    // Debugging to confirm received values
+    var_dump($user_id, $class_id, $class_name);
+
+    // Check if prerequisites are met
+    if (!checkPrerequisites($pdo, $user_id, $class_id)) {
         header("Location: register_classes.php?error=prerequisite_not_met");
         exit();
     }
@@ -30,14 +34,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Insert a new enrollment record if the user is not already enrolled
     $insertStmt = $pdo->prepare("
         INSERT INTO EnrollmentRecords (User, Class, Status, ClassName)
-        VALUES (:user_id, :class_id, 'in progress', class_name)
+        VALUES (:user_id, :class_id, 'in progress', :class_name)
     ");
-    $insertStmt->execute(['user_id' => $user_id, 'class_id' => $class_id, 'class_name' => $class_name]);
-    // Redirect to register_classes
+    $insertStmt->execute([
+        'user_id' => $user_id,
+        'class_id' => $class_id,
+        'class_name' => $class_name
+    ]);
+
+    // Redirect to register_classes with a success message
     header("Location: register_classes.php?success=registered");
     exit();
 } else {
-    //no direct access
+    // Redirect if accessed directly
     header("Location: register_classes.php");
     exit();
 }

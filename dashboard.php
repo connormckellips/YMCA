@@ -118,6 +118,7 @@ if ($user) {
         <!-- ADM-Specific Options -->
         <?php if ($role === "ADM"): ?>
             <a href="ManageMembers.php" class="option-box">Manage Members</a>
+            <a href="generate_report.php" class="option-box">Generate User Registration Report</a> <!-- New Link Added -->
         <?php endif; ?>
 
         <!-- Common Option for All Roles -->

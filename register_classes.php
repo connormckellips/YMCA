@@ -142,6 +142,9 @@ $classes = $class_list->fetchAll(PDO::FETCH_ASSOC);
         alert('Registration successful!');
     } else if (error) {
         switch(error) {
+            case 'class_full':
+                alert('Registration failer: Class is full.');
+                break;
             case 'prerequisite_not_met':
                 alert('Registration failed: Prerequisites are not met.');
                 break;

@@ -52,7 +52,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    // Insert a new enrollment record if no conflicts or duplicates
+    // Check if the class is already full
+    $sizeCheck = $pdo->prepare("
+        SELECT COUNT(*) AS current_enrollment
+        FROM EnrollmentRecords
+        WHERE Class = :class_id
+    ");
+    $sizeCheck->execute(['class_id' => $class_id]);
+    $currentEnrollment = $sizeCheck->fetchColumn();
+
+    $maxSizeCheck = $pdo->prepare("
+        SELECT MaxSize
+        FROM Classes
+        WHERE ClassID = :class_id
+    ");
+    $maxSizeCheck->execute(['class_id' => $class_id]);
+    $maxSize = $maxSizeCheck->fetchColumn();
+
+    if ($currentEnrollment >= $maxSize) {
+        header("Location: register_classes.php?error=class_full");
+        exit();
+    }
+
+    // Insert a new enrollment record if no conflicts, duplicates, or size issues
     $insertStmt = $pdo->prepare("
         INSERT INTO EnrollmentRecords (User, Class, Status, ClassName)
         VALUES (:user_id, :class_id, 'in progress', :class_name)
@@ -71,3 +93,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Location: register_classes.php");
     exit();
 }
+?>

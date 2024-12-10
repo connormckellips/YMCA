@@ -57,6 +57,16 @@ if (!isset($_SESSION['username'])) {
             font-size: 1rem;
         }
 
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+
         /* Search button styling */
         input[type="submit"] {
             width: 100%;

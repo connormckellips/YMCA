@@ -24,12 +24,12 @@ if ($user) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- [Your existing head content remains unchanged] -->
+    <!-- Existing head content -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <style>
-        /* [Your existing CSS styles remain unchanged] */
+        /* Existing CSS styles */
         body, html {
             height: 100%;
             margin: 0;
@@ -43,7 +43,7 @@ if ($user) {
 
         .dashboard-container {
             text-align: center;
-            max-width: 500px;
+            max-width: 700px; /* Increased width to accommodate more options */
             padding: 20px;
             background-color: rgba(255, 255, 255, 0.9);
             border-radius: 10px;
@@ -99,20 +99,25 @@ if ($user) {
     <div class="dashboard-container">
         <h1>Hi, <?php echo $firstName . ' ' . $lastName; ?>!</h1>
 
-        <!-- Member and Employee Options -->
-        <?php if (in_array($role, ["MEM", "EMP", "NON"])): ?>
+        <!-- Member, Employee, and ADM Options -->
+        <?php if (in_array($role, ["MEM", "EMP", "ADM", "NON"])): ?>
             <a href="register_classes.php" class="option-box">Register for Classes</a>
             
-            <?php if (in_array($role, ["MEM", "EMP"])): ?>
+            <?php if (in_array($role, ["MEM", "EMP", "ADM"])): ?>
                 <a href="membership_benefits.php" class="option-box">View Membership Benefits</a>
             <?php endif; ?>
         <?php endif; ?>
 
-        <!-- Employee-Specific Options -->
-        <?php if ($role === "EMP"): ?>
+        <!-- Employee and ADM-Specific Options -->
+        <?php if (in_array($role, ["EMP", "ADM"])): ?>
             <a href="createClasses.php" class="option-box">Create Classes</a>
             <a href="viewClasses.php" class="option-box">View Classes</a>
             <a href="cancelClasses.php" class="option-box">Cancel Classes</a>
+        <?php endif; ?>
+
+        <!-- ADM-Specific Options -->
+        <?php if ($role === "ADM"): ?>
+            <a href="ManageMembers.php" class="option-box">Manage Members</a>
         <?php endif; ?>
 
         <!-- Common Option for All Roles -->

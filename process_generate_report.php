@@ -6,7 +6,7 @@
         /* General Styles */
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f8ff; /* Alice Blue */
+            background-color: #009dc4; /* Alice Blue */
             color: #333;
             margin: 0;
             padding: 0;

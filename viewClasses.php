@@ -101,11 +101,15 @@ if (!isset($_SESSION['username'])) {
 
     <!-- Main content container -->
     <div class="view-classes-container">
-        <h2>Search for Classes by Attendee</h2>
+        <h2>Search for Classes</h2>
         <form action="process_viewClasses.php" method="POST">
             <label for="Username">Username:</label>
-            <input type="email" id="Username" name="Username" placeholder="Enter attendee's email" required>
-            <input type="submit" value="Search">
+            <input type="email" id="Username" name="Username" placeholder="johndoe@ymca.com">
+            <label for="Class Name">Class Name:</label>
+            <input type="text" id="className" name="className" placeholder="Strength & Conditioning">
+            <!-- Two separate buttons -->
+            <button type="submit" name="action" value="searchByUsername">Search by Username</button>
+            <button type="submit" name="action" value="searchByClassName">Search by Class Name</button>
         </form>
     </div>
 </body>

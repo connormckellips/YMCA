@@ -3,66 +3,84 @@ session_start();
 include 'db_connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = $_POST['Username'];
-    // Query for UserID based on Username
-    $userQuery = $pdo->prepare("SELECT UserID FROM Users WHERE Username = :username");
-    $userQuery->execute(['username' => $username]);
-    $user = $userQuery->fetch(PDO::FETCH_ASSOC);
+    $username = $_POST['Username'] ?? null;
+    $className = $_POST['className'] ?? null;
+    $action = $_POST['action'] ?? null;
+    $params = [];
+    $query = "";
 
-    if ($user) {
-        $classQuery = $pdo->prepare("SELECT Class FROM EnrollmentRecords WHERE User = :user_id");
-        $classQuery->execute(['user_id' => $user['UserID']]);
-
-        if ($classQuery) {
-            $classes = $classQuery->fetchAll(PDO::FETCH_ASSOC);
-
-            echo "<div class='container'>";
-            echo "<h2>Classes for " . htmlspecialchars($username) . "</h2>";
-            echo "<form action='action_ViewClasses.php' method='POST' class='class-form'>";
-            echo "<table class='class-table'>";
-            echo "<tr><th>Select</th><th>Class Name</th><th>Start Date</th><th>End Date</th><th>Days</th><th>Start Time</th><th>End Time</th><th>Location</th></tr>";
-
-            foreach ($classes as $class) {
-                $classInfoQuery = $pdo->prepare("SELECT Name, StartDate, EndDate, Days, StartTime, EndTime, Location FROM Classes WHERE ClassID = :class_id");
-                $classInfoQuery->execute(['class_id' => $class['Class']]);
-                $classInfo = $classInfoQuery->fetch(PDO::FETCH_ASSOC);
-
-                if ($classInfo) {
-                    echo "<tr>";
-                    echo "<td><input type='radio' name='classList' id='" . htmlspecialchars($class['Class']) . "' value='" . htmlspecialchars($class['Class']) . "'></td>";
-                    echo "<td>" . htmlspecialchars($classInfo['Name']) . "</td>";
-                    echo "<td>" . htmlspecialchars($classInfo['StartDate']) . "</td>";
-                    echo "<td>" . htmlspecialchars($classInfo['EndDate']) . "</td>";
-                    echo "<td>" . htmlspecialchars($classInfo['Days']) . "</td>";
-                    echo "<td>" . htmlspecialchars($classInfo['StartTime']) . "</td>";
-                    echo "<td>" . htmlspecialchars($classInfo['EndTime']) . "</td>";
-                    echo "<td>" . htmlspecialchars($classInfo['Location']) . "</td>";
-                    echo "</tr>";
-                }
-            }
-            echo "</table>";
-            echo "<input type='submit' name='submitType' value='Cancel' class='submit-button'>";
-            echo "</form>";
-
-            // Add "Return to Search" button
-            echo "<a href='viewClasses.php' class='return-button'>Return to Search</a>";
-            echo "</div>";
-
-            echo "<script>
-                    document.querySelector('form').addEventListener('submit', function(event) {
-                        const selectedRadio = document.querySelector('input[name=\"classList\"]:checked');
-
-                        if (!selectedRadio) {
-                            event.preventDefault();
-                            alert('Please select a class.');
-                        }
-                    });
-                </script>";
-        } else {
-            echo "<p>No classes found for the specified user.</p>";
-        }
+    if ($action === 'searchByUsername' && !empty($username)) {
+        $query = "
+            SELECT Classes.ClassID, Classes.Name, Classes.StartDate, Classes.EndDate, Classes.Days, Classes.StartTime, Classes.EndTime, Classes.Location
+            FROM Classes
+            LEFT JOIN EnrollmentRecords ON Classes.ClassID = EnrollmentRecords.Class
+            LEFT JOIN Users ON EnrollmentRecords.User = Users.UserID
+            WHERE Users.Username = :username
+        ";
+        $params['username'] = $username;
+    } elseif ($action === 'searchByClassName' && !empty($className)) {
+        $query = "
+            SELECT Classes.ClassID, Classes.Name, Classes.StartDate, Classes.EndDate, Classes.Days, Classes.StartTime, Classes.EndTime, Classes.Location
+            FROM Classes
+            WHERE Classes.Name LIKE :className
+        ";
+        $params['className'] = '%' . $className . '%';
     } else {
-        echo "<p>Unable to find user.</p>";
+        echo "<p>Please provide the required input for the selected search type.</p>";
+        exit();
+    }
+    $stmt = $pdo->prepare($query);
+    $stmt->execute($params);
+    $classes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    //$userQuery = $pdo->prepare("SELECT UserID FROM Users WHERE Username = :username");
+    //$userQuery->execute(['username' => $username]);
+    //$user = $userQuery->fetch(PDO::FETCH_ASSOC);
+
+    if ($classes) {
+        //$classes = $classQuery->fetchAll(PDO::FETCH_ASSOC);
+
+        echo "<div class='container'>";
+        echo "<h2>Classes for " . htmlspecialchars($username) . "</h2>";
+        echo "<form action='action_ViewClasses.php' method='POST' class='class-form'>";
+        echo "<table class='class-table'>";
+        echo "<tr><th>Select</th><th>Class Name</th><th>Start Date</th><th>End Date</th><th>Days</th><th>Start Time</th><th>End Time</th><th>Location</th></tr>";
+
+        foreach ($classes as $class) {
+            //$classInfoQuery = $pdo->prepare("SELECT Name, StartDate, EndDate, Days, StartTime, EndTime, Location FROM Classes WHERE ClassID = :class_id");
+            //$classInfoQuery->execute(['class_id' => $class['Class']]);
+            //$classInfo = $classInfoQuery->fetch(PDO::FETCH_ASSOC);
+
+            echo "<tr>";
+            //echo "<td><input type='radio' name='classList' id='" . htmlspecialchars($class['Class']) . "' value='" . htmlspecialchars($class['Class']) . "'></td>";
+            echo "<td>" . htmlspecialchars($class['Name']) . "</td>";
+            echo "<td>" . htmlspecialchars($class['StartDate']) . "</td>";
+            echo "<td>" . htmlspecialchars($class['EndDate']) . "</td>";
+            echo "<td>" . htmlspecialchars($class['Days']) . "</td>";
+            echo "<td>" . htmlspecialchars($class['StartTime']) . "</td>";
+            echo "<td>" . htmlspecialchars($class['EndTime']) . "</td>";
+            echo "<td>" . htmlspecialchars($class['Location']) . "</td>";
+            echo "</tr>";
+        }
+        echo "</table>";
+        echo "<input type='submit' name='submitType' value='Cancel' class='submit-button'>";
+        echo "</form>";
+
+        // Add "Return to Search" button
+        echo "<a href='viewClasses.php' class='return-button'>Return to Search</a>";
+        echo "</div>";
+
+        echo "<script>
+                document.querySelector('form').addEventListener('submit', function(event) {
+                    const selectedRadio = document.querySelector('input[name=\"classList\"]:checked');
+
+                    if (!selectedRadio) {
+                        event.preventDefault();
+                        alert('Please select a class.');
+                    }
+                });
+            </script>";
+    } else {
+        echo "<p>No classes found under the specified criteria.</p>";
     }
 } else {
     header("Location: viewClasses.php");

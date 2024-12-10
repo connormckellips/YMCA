@@ -8,18 +8,42 @@ if (!isset($_SESSION['username'])) {
 }
 
 $username = $_SESSION['username'];
-$stmt = $pdo->prepare("SELECT First, Last, Role FROM Users WHERE Username = :username LIMIT 1");
-$stmt->execute(['username' => $username]);
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
+$userStmt = $pdo->prepare("SELECT UserID, First, Last, Role FROM Users WHERE Username = :username LIMIT 1");
+$userStmt->execute(['username' => $username]);
+$user = $userStmt->fetch(PDO::FETCH_ASSOC);
 
 if ($user) {
     $firstName = htmlspecialchars($user['First']);
     $lastName = htmlspecialchars($user['Last']);
     $role = htmlspecialchars($user['Role']);
+    $userID = $user['UserID'];
+
+    try {
+        // Query to count unread messages
+        $testStmt = $pdo->prepare("SELECT count(*) AS unread_count FROM messages WHERE read = 0 AND receiver_id = :userID");
+        $testStmt->execute(['userID' => $userID]);
+        $testResult = $testStmt->fetch(PDO::FETCH_ASSOC);
+        // Get the count of unread messages
+        $unreadCount = $testResult['unread_count'] ?? 0;
+        // Determine the button style
+        $buttonStyle;
+        $buttonText = "View Messages";
+        //echo $unreadCount;
+        if ($unreadCount > 0) {
+            $buttonStyle = $unreadCount > 0 ? 'font-weight: bold !important;' : '';;
+            $buttonText = "View Messages (" . $unreadCount . ")";
+        }
+        
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+        $buttonStyle = '';
+        $buttonText = "View Messages";
+    }
 } else {
     header("Location: login.php");
     exit();
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -122,7 +146,9 @@ if ($user) {
         <?php endif; ?>
 
         <!-- Common Option for All Roles -->
-        <a href="viewInbox.php" class="option-box">View Messages</a>
+        <a href="viewInbox.php" class="option-box" style="<?php echo $buttonStyle; ?>">
+            <?php echo htmlspecialchars($buttonText); ?>
+        </a>
     </div>
 </body>
 </html>

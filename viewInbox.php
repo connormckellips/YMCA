@@ -8,6 +8,10 @@ $UserID = $_SESSION['UserID'];
 $stmt = $pdo->prepare("SELECT * FROM messages WHERE receiver_id = :UserID");
 $stmt->execute(['UserID' => $UserID]);
 $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$read = $pdo->prepare("UPDATE messages SET read = 1 WHERE read = 0 AND receiver_id = :userID;");
+$read->execute(['userID' => $UserID]);
+
 ?>
 
 <!DOCTYPE html>

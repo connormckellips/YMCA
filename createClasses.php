@@ -82,9 +82,33 @@ if (!isset($_SESSION['username'])) {
             background-color: #45a049;
         }
     </style>
+    
 </head>
 <body>
     <div class="create-class-container">
+    <?php
+// Function to safely output JavaScript strings
+function safe_js($str) {
+    return htmlspecialchars(addslashes($str), ENT_QUOTES, 'UTF-8');
+}
+
+// Check if an error message exists in the URL
+if (isset($_GET['error'])) {
+    // Decode the error string
+    $errorMessages = explode(" | ", urldecode($_GET['error']));
+    
+    // Check if the error is specifically "Invalid dates."
+    if (in_array("Invalid dates.", $errorMessages)) {
+        // Display the "Invalid dates." popup
+        echo "<script>alert('" . safe_js("Invalid dates.") . "');</script>";
+    } else {
+        // If other errors exist, display them all in the popup
+        // Convert the errors array into a single string separated by newlines for better readability in alert
+        $errorString = implode("\\n", array_map('safe_js', $errorMessages));
+        echo "<script>alert('" . $errorString . "');</script>";
+    }
+}
+?>
         <form action="process_createClasses.php" method="POST">
             <label for="className">Class Name:</label>
             <input type="text" id="className" name="className" required>
@@ -99,7 +123,7 @@ if (!isset($_SESSION['username'])) {
                 <legend>Days:</legend>
                 <div class="days-container">
                     <input type="checkbox" name="days[]" value="Sunday" id="Sunday"><label for="Sunday">Sunday</label>
-                    <input type="checkbox" name="days[]" value="Monday "id="Monday"><label for="Monday">Monday</label>
+                    <input type="checkbox" name="days[]" value="Monday" id="Monday"><label for="Monday">Monday</label>
                     <input type="checkbox" name="days[]" value="Tuesday" id="Tuesday"><label for="Tuesday">Tuesday</label>
                     <input type="checkbox" name="days[]" value="Wednesday" id="Wednesday"><label for="Wednesday">Wednesday</label>
                     <input type="checkbox" name="days[]" value="Thursday" id="Thursday"><label for="Thursday">Thursday</label>

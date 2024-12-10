@@ -1,14 +1,17 @@
 <?php
 session_start();
 include 'db_connection.php'; 
+
 if (!isset($_SESSION['username'])) {
     header("Location: login.php"); 
     exit();
 }
+
 $username = $_SESSION['username'];
 $stmt = $pdo->prepare("SELECT First, Last, Role FROM Users WHERE Username = :username LIMIT 1");
 $stmt->execute(['username' => $username]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
 if ($user) {
     $firstName = htmlspecialchars($user['First']);
     $lastName = htmlspecialchars($user['Last']);
@@ -21,11 +24,12 @@ if ($user) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- [Your existing head content remains unchanged] -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <style>
-        /* Full-screen background image */
+        /* [Your existing CSS styles remain unchanged] */
         body, html {
             height: 100%;
             margin: 0;
@@ -37,12 +41,11 @@ if ($user) {
             background-size: cover;
         }
 
-        /* Center container styling */
         .dashboard-container {
             text-align: center;
             max-width: 500px;
             padding: 20px;
-            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+            background-color: rgba(255, 255, 255, 0.9);
             border-radius: 10px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
         }
@@ -69,7 +72,6 @@ if ($user) {
             background-color: #1f8fa3;
         }
 
-        /* Logout button styling */
         .logout-button {
             position: fixed;
             top: 20px;
@@ -96,16 +98,24 @@ if ($user) {
 
     <div class="dashboard-container">
         <h1>Hi, <?php echo $firstName . ' ' . $lastName; ?>!</h1>
-        <?php if ($role == "MEM" || $role == "NON"): ?>
+
+        <!-- Member and Employee Options -->
+        <?php if (in_array($role, ["MEM", "EMP", "NON"])): ?>
             <a href="register_classes.php" class="option-box">Register for Classes</a>
-            <?php if ($role == "MEM"): ?>
+            
+            <?php if (in_array($role, ["MEM", "EMP"])): ?>
                 <a href="membership_benefits.php" class="option-box">View Membership Benefits</a>
             <?php endif; ?>
-        <?php else: ?>
+        <?php endif; ?>
+
+        <!-- Employee-Specific Options -->
+        <?php if ($role === "EMP"): ?>
             <a href="createClasses.php" class="option-box">Create Classes</a>
             <a href="viewClasses.php" class="option-box">View Classes</a>
             <a href="cancelClasses.php" class="option-box">Cancel Classes</a>
         <?php endif; ?>
+
+        <!-- Common Option for All Roles -->
         <a href="viewInbox.php" class="option-box">View Messages</a>
     </div>
 </body>

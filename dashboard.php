@@ -6,7 +6,7 @@ if (!isset($_SESSION['username'])) {
     header("Location: login.php"); 
     exit();
 }
-
+//set up session and prepare query
 $username = $_SESSION['username'];
 $userStmt = $pdo->prepare("SELECT UserID, First, Last, Role FROM Users WHERE Username = :username LIMIT 1");
 $userStmt->execute(['username' => $username]);
@@ -45,6 +45,7 @@ if ($user) {
 }
 
 ?>
+<!-- Style code. Make it look like its beyond 1999 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>

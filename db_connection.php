@@ -1,5 +1,5 @@
 <?php
-// db_connection.php
+// db_connection.php allow prog to access db
 $databasePath = __DIR__ . '/databases/YMCAproject.db';
 
 try {

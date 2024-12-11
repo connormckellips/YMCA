@@ -115,7 +115,7 @@
                         $stmt->execute([':user_id' => $user_id]);
 
                         $classes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+                        //process the output
                         if ($classes) {
                             echo "<ul>";
                             foreach ($classes as $class) {

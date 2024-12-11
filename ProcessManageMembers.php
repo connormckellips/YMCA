@@ -17,18 +17,17 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 // Verify that the user has ADM role
 if (!$user || $user['Role'] !== "ADM") {
-    // If user is not ADM, redirect to dashboard
+    // If user is not ADM, banish them to dashboard
     header("Location: dashboard.php");
     exit();
 }
 
-// Initialize variables for feedback messages
+// Initialize variables for messages
 $message = '';
 $messageType = '';
 
 // Handle POST request
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Check CSRF token validity
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
         $message = "Invalid CSRF token.";
         $messageType = 'error';
@@ -39,44 +38,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $messageType = 'error';
     }
     else {
-        // Sanitize the input to prevent malicious data
+        //trim user for possible white space.
         $deleteUsername = trim($_POST['delete_username']);
         $deleteUsername = filter_var($deleteUsername, FILTER_SANITIZE_STRING);
 
-        // Prevent ADM from deleting themselves
+        // Safety check, should never be able to get here though. 
         if ($deleteUsername === $currentUsername) {
             $message = "You cannot delete your own account.";
             $messageType = 'error';
         }
         else {
             try {
-                // Begin transaction to ensure atomicity
                 $pdo->beginTransaction();
-
                 // Fetch the UserID of the user to be deleted
                 $fetchUserIDStmt = $pdo->prepare("SELECT UserID, Role FROM Users WHERE Username = :username LIMIT 1");
                 $fetchUserIDStmt->execute(['username' => $deleteUsername]);
                 $userToDelete = $fetchUserIDStmt->fetch(PDO::FETCH_ASSOC);
 
                 if (!$userToDelete) {
-                    // If the user does not exist
                     $message = "User '$deleteUsername' does not exist.";
                     $messageType = 'error';
-                    $pdo->rollBack(); // Rollback the transaction
+                    $pdo->rollBack();
                 }
                 elseif ($userToDelete['Role'] === "ADM") {
                     // Prevent ADM from deleting another ADM
                     $message = "You cannot delete another administrator.";
                     $messageType = 'error';
-                    $pdo->rollBack(); // Rollback the transaction
+                    $pdo->rollBack();
                 }
                 else {
                     $userID = $userToDelete['UserID'];
-
-                    // Delete associated EnrollmentRecords
+                    // Purge EnrollmentRecords for user
                     $deleteEnrollmentsStmt = $pdo->prepare("DELETE FROM EnrollmentRecords WHERE User = :userID");
                     $deleteEnrollmentsStmt->execute(['userID' => $userID]);
-
 
                     $deleteUserStmt = $pdo->prepare("DELETE FROM Users WHERE UserID = :userID");
                     $deleteUserStmt->execute(['userID' => $userID]);
@@ -89,9 +83,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
             catch (Exception $e) {
-                // An error occurred; rollback the transaction
+                //errpr handling.
                 $pdo->rollBack();
-                // Log the error message (you can adjust the path as needed)
+                //log
                 error_log("Deletion Error: " . $e->getMessage());
                 $message = "An error occurred while deleting the user. Please try again.";
                 $messageType = 'error';
@@ -99,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // Store feedback messages in session to display on delete_member.php
+    // Store error messages in session to display on delete_member.php
     $_SESSION['message'] = $message;
     $_SESSION['message_type'] = $messageType;
 

@@ -97,7 +97,7 @@ if (isset($_GET['error'])) {
     // Decode the error string
     $errorMessages = explode(" | ", urldecode($_GET['error']));
     
-    // Check if the error is specifically "Invalid dates."
+    // Check if the error is specifically "Invalid dates." Was being a pain in the rear and not wanting to display this one, only would display unknown error unless placed like this. 
     if (in_array("Invalid dates.", $errorMessages)) {
         // Display the "Invalid dates." popup
         echo "<script>alert('" . safe_js("Invalid dates.") . "');</script>";
@@ -107,7 +107,7 @@ if (isset($_GET['error'])) {
         $errorString = implode("\\n", array_map('safe_js', $errorMessages));
         echo "<script>alert('" . $errorString . "');</script>";
     }
-}
+}// at this point gather all the information, there is a checkbox system below. Help I dont know how to comment inside HTML stuff. 
 ?>
         <form action="process_createClasses.php" method="POST">
             <label for="className">Class Name:</label>
@@ -131,7 +131,7 @@ if (isset($_GET['error'])) {
                     <input type="checkbox" name="days[]" value="Saturday" id="Saturday"><label for="Saturday">Saturday</label>
                 </div>
             </fieldset>
-            
+    
             <label for="startTime">Start Time:</label>
             <input type="time"id="startTime" name="startTime" required>
 
@@ -167,7 +167,7 @@ if (isset($_GET['error'])) {
         document.querySelector('form').addEventListener('submit', function(event) {
             const checkboxes = document.querySelectorAll('input[name="days[]"]');
             const isChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
-
+            //Check to see if there is a day of the week for the class. 
             if (!isChecked) {
                 event.preventDefault();
                 alert("Please select at least one day.");

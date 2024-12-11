@@ -89,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Location: register_classes.php?success=registered");
     exit();
 } else {
-    // Redirect if accessed directly
+    // Redirect if accessed directly. (For naughty children.)
     header("Location: register_classes.php");
     exit();
 }

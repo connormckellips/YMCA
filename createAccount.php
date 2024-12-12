@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <title>Create Account</title>
     <style>
-       
-        body, html {
+        body,
+        html {
             height: 100%;
             margin: 0;
             display: flex;
-            justify-content: center; 
-            align-items: center; 
+            justify-content: center;
+            align-items: center;
             background-color: #f0f2f5;
             font-family: Arial, sans-serif;
         }
@@ -62,8 +63,10 @@
         }
     </style>
 </head>
+
 <body>
-   <div class="create-account-container">
+    <!-- Form for creating an account -->
+    <div class="create-account-container">
         <form action="process_createAccount.php" method="POST">
             <label for="first_name">First Name:</label>
             <input type="text" id="first_name" name="first_name" required>
@@ -75,8 +78,8 @@
             <input type="password" id="pwd" name="pwd" required>
             <input type="submit" value="submit">
         </form>
-   </div>
-   <div>
+    </div>
+    <div>
         <a href="login.php" class="login">Log in</a>
-   </div>
+    </div>
 </body>
